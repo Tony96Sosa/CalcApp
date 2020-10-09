@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
+/* eslint no-eval: 0*/
+import React, { useState } from 'react';
+import Result from './components/Result';
+import Functions from './components/Functions';
+import MathOperations from './components/MathOperations';
+import Numbers from './components/Numbers';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    const [value, setValue ] = useState("");
+    const onClickOperation= operation => {
+        console.log('Operacióm', operation);
+        setValue(`${value}${operation}`);
+    }
+    const onClickEqual= (equal) => {
+        console.log('Igual', equal);
+        setValue(eval(value).toString());
+    }
+    const onContentClear= () => {
+        console.log('Clear');
+        setValue("");
+    }
+    const onDelete= () => {
+        if(value.length>0){
+            console.log('Delete');
+            const newValue = value.substring(0, value.length-1);
+            setValue(newValue);
+        }
+    }
+    const onClickNumber= (number) => {
+        console.log('Numero', number);
+        setValue(`${value}${number}`);
+    }
+
+    return (
+        <main className="react-calculator">
+            <Result num={value} />
+            <Numbers onClickNumber={ onClickNumber }
+            />
+            <Functions 
+            onContentClear={ onContentClear }
+            onDelete={ onDelete }
+            />
+            <MathOperations 
+            onClickOperation={ onClickOperation }
+            onClickEqual={ onClickEqual }
+            />
+        </main>
+    )
 }
 
 export default App;
